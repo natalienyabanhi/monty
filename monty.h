@@ -32,6 +32,7 @@ void rotr(struct stack_s **stack, unsigned int line_number);
 void stack(struct stack_s **stack, unsigned int line_number);
 void queue(struct stack_s **stack, unsigned int line_number);
 
+
 /* Stack structure definition */
 typedef struct stack_s
 {
