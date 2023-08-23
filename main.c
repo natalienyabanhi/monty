@@ -4,6 +4,7 @@
 
 instruction_t instructions[] = {
     {"push", push},
+    {"mod", mod},
     {"pop", pop},
     {"swap", swap},
     {"add", add},
@@ -12,8 +13,12 @@ instruction_t instructions[] = {
     {"pall", pall},
     {"mul", mul},
     {"mod", mod},
+    {"rotl", rotl},
+    {"pstr", pstr},
     {"div_op", div_op},
     {"pchar", pchar},
+    {"pint", pint},
+    {"mul", mul},
     {NULL, NULL}
 };
 
@@ -27,8 +32,7 @@ int main(int argc, char *argv[])
 {
     FILE *file;
     stack_t *stack = NULL;
-    char *line = NULL;
-    size_t len = 0;
+    char line[MAX_LINE_LENGTH];
     unsigned int line_number = 0;
     char *opcode;
     int found;
@@ -47,7 +51,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    while (fgets(line, len, file) != NULL)
+    while (fgets(line, sizeof(line), file) != NULL)
     {
         line_number++;
         opcode = strtok(line, " \t\n");
@@ -55,8 +59,19 @@ int main(int argc, char *argv[])
         if (opcode == NULL || opcode[0] == '#')
             continue; /* Skip empty lines and comments */
 
+        if (strcmp(opcode, "queue") == 0)
+        {
+            g_mode = MODE_QUEUE; 
+            continue;
+        }
+        else if (strcmp(opcode, "stack") == 0)
+        {
+            g_mode = MODE_STACK; 
+            continue;
+        }
+
         found = 0;
-       
+
         for (instr = instructions; instr->opcode != NULL; instr++)
         {
             if (strcmp(opcode, instr->opcode) == 0)
@@ -71,7 +86,6 @@ int main(int argc, char *argv[])
         {
             fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
             fclose(file);
-            free(line);
             /* Free the stack nodes */
             /* ... */
             return 1;
@@ -79,7 +93,6 @@ int main(int argc, char *argv[])
     }
 
     fclose(file);
-    free(line);
     /* Free the stack nodes */
     /* ... */
 

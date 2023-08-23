@@ -5,6 +5,7 @@
 #define MODE_QUEUE 1
 
 #define __USE_MISC
+#define MAX_LINE_LENGTH 1024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,8 +32,7 @@ void rotl(struct stack_s **stack, unsigned int line_number);
 void rotr(struct stack_s **stack, unsigned int line_number);
 void stack(struct stack_s **stack, unsigned int line_number);
 void queue(struct stack_s **stack, unsigned int line_number);
-
-
+void pint(struct stack_s **stack, unsigned int line_number);
 /* Stack structure definition */
 typedef struct stack_s
 {
@@ -40,6 +40,8 @@ typedef struct stack_s
     struct stack_s *prev;
     struct stack_s *next;
 } stack_t;
+
+void free_all(stack_t **stack);
 
 /* Instruction structure definition */
 typedef struct instruction_s
