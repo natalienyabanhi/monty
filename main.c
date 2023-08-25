@@ -93,9 +93,12 @@ int main(int argc, char *argv[])
 	}
 
 	fclose(file);
-	/* Free the stack nodes */
-    /* ... */
-
+        while (stack != NULL)
+    {
+        stack_t *temp = stack;
+        stack = stack->next;
+        free(temp);
+    }
 	return 0;
 }
 
